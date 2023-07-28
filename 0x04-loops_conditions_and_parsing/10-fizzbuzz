@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Script displays numbers from 1 to 100
+# Display FizzBuzz when the number is multiple of 3 and 5
+# Display Fizz when the number is multiple of 3
+# Display Buzz when the number is multiple of 5
+# Otherwise, display the number
+# in a list format
+
+number=1
+while [ $number -le 100 ]
+do
+    if [ $((number % 15)) -eq 0 ]; then
+        echo "FizzBuzz"
+    elif [ $((number % 3)) -eq 0 ]; then
+        echo "Fizz"
+    elif [ $((number % 5)) -eq 0 ]; then
+        echo "Buzz"
+    else
+        echo "$number"
+    fi
+    ((number++))
+done
