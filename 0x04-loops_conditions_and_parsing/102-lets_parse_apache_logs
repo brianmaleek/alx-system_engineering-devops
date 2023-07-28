@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Script displays Visitor IP, HTTP status code from Apache log file
+# Format of the log file:
+# IP HTTP_CODE, example: <185.130.5.207 301>
+# Only use awk
+
+awk '{print $1, $9}' apache-access.log
