@@ -10,16 +10,21 @@
 # using if and else statements
 
 file="school"
-if [ -e $file ]
+# check if the file exists
+if [ -e $file ];
 then
     echo "school file exists"
-    if [ -s $file ]
+
+    # check if the file is empty
+    if [ -s $file ];
     then
         echo "school file is not empty"
     else
         echo "school file is empty"
     fi
-    if [ -f $file ]
+
+    # check if the file is a regular file
+    if [ -f $file ];
     then
         echo "school file is a regular file"
     fi
