@@ -6,7 +6,7 @@
 # if the file is empty, it prints "School file is empty"
 # if the file is not empty, it prints "School file is not empty"
 # if the file is a regular file, it prints "School file is a regular file"
-#if the file is not a regular file, it prints (nothing)
+# if the file is not a regular file, it prints (nothing)
 # using if and else statements
 
 file="school"
