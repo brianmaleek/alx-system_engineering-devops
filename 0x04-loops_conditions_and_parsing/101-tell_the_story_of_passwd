@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 # Script displays content of the file /etc/passwd
 # Using while loop and IFS.
+# Script displays username, password, user_id, group_id, user_info
+# home_directory, and shell
 
-while IFS=':' read -r user _ uid _ home _; do
-    echo "$user $uid $home"
-done < /etc/passwd
+FILE="/etc/passwd"
+
+while IFS=":" read -r user pw uid gid uinfo homedir shell
+do
+    echo "The user $user is part of the $gid gang, lives in $homedir and \
+rides $shell. $uid's place is protected by the passcode $pw, \
+more info about the user here: $uinfo"
+done < "$FILE"
