@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Write a Bash init script that:
+# When passing the argument start:
+#   1. Starts manage_my_process
+#   2.Creates a file containing its PID in /var/run/my_process.pid
+#   3. Displays manage_my_process started
+# When passing the argument stop:
+#   1. Stops manage_my_process
+#   2. Deletes the file /var/run/my_process.pid
+#   3. Displays manage_my_process stopped
+# When passing the argument restart
+#   1. Stops manage_my_process
+#   2. Deletes the file /var/run/my_process.pid
+#   3. Starts manage_my_process
+#   4. Creates a file containing its PID in /var/run/my_process.pid
+#   5. Displays manage_my_process restarted
+# Displays Usage: manage_my_process {start|stop|restart} if any other argument or no argument is passed
+
+start_process() {
+	./manage_my_process &
+	echo $! > /var/run/my_process.pid
+	echo "manage_my_process started"
+}
+
+stop_process() {
+	if [ -f "/var/run/my_process.pid" ]; then
+		pid=$(cat /var/run/my_process.pid)
+		kill "$pid" && wait "$pid" 2>/dev/null
+		rm /var/run/my_process.pid
+		echo "manage_my_process stopped"
+	else
+	echo "No running process found."
+fi
+}
+
+restart_process() {
+	stop_process
+	start_process
+}
+
+if [ "$#" -eq 1 ]; then
+	case "$1" in
+    	"start")
+			start_process
+		;;
+		"stop")
+			stop_process
+		;;
+		"restart")
+			restart_process
+		;;
+    *)
+		echo "Usage: $0 {start|stop|restart}"
+		;;
+	esac
+else
+	echo "Usage: $0 {start|stop|restart}"
+fi
