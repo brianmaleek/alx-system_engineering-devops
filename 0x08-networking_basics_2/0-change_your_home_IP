@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Script configures Ubuntu Server. REquirements are:
+#   1. Localhost resolves to 127.0.0.2
+#   2. facebook.com resolves to 8.8.8.8
+cp /etc/hosts /tmp/hosts
+sed -i 's/^127.*/"127.0.0.2 localhost"/' /tmp/hosts
+sudo cp /tmp/hosts /etc/hosts
