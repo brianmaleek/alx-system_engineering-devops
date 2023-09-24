@@ -1,3 +1,5 @@
+include stdlib
+
 # using Puppet make changes to our configuration file. To set up your client SSH configuration
 # file to connect to a server without typing a password.
 # Requirements:
@@ -8,11 +10,11 @@
 file_line { 'Turn off password auth':
   ensure => present,
   path   => '/etc/ssh/ssh_config',
-  line   => '    passwordAuthentication no',
+  line   => 'passwordAuthentication no',
 }
 
 file_line { 'Declare identity file':
   ensure => present,
   path   => '/etc/ssh/ssh_config',
-  line   => '    IdentityFile ~/.ssh/school',
+  line   => 'IdentityFile ~/.ssh/school',
 }
