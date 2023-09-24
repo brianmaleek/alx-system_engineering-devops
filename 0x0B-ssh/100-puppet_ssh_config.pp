@@ -6,13 +6,13 @@
 
 # Setup SSH config using Puppet
 file_line { 'Turn off password auth':
-  ensure => 'present',
+  ensure => present,
   path   => '/etc/ssh/ssh_config',
   line   => '    passwordAuthentication no',
 }
 
 file_line { 'Declare identity file':
-  ensure => 'present',
+  ensure => present,
   path   => '/etc/ssh/ssh_config',
   line   => '    IdentityFile ~/.ssh/school',
 }
