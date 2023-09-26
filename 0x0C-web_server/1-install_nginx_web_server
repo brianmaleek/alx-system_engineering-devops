@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# This script will install nginx web server on an ubuntu server
+# Requirements:
+# 1. Install nginx on your web-01 server
+# 2. Nginx should be listening on port 80
+# 3. Querying Nginx at root / with a GET request
+#    (requesting a page) using curl, it must return a page that contains the string Hello World!
+#   curl ubuntu@ipaddress/ should return a page containing the string Hello World!  
+# 4. As an answer file, write a Bash script which configures a new Ubuntu machine to respect above requirements
+# 5. Can't use systemctl for restarting nginx
+# 6. Make sure to make the Bash script executable (chmod u+x install_nginx_web_server)
+
+# update and upgrade ubuntu packages
+sudo apt-get update && sudo apt-get -y upgrade
+
+# install nginx
+sudo apt-get -y install nginx
+
+# check if nginx is running
+if service nginx status | grep -q "active (running)"; then
+    echo "Nginx is running"
+else
+    echo "Nginx is not running"
+fi
+
+# start nginx
+sudo service nginx start
+
+# Creating an index.html file with "Hello World" inside
+echo "Hello World" | sudo tee /var/www/html/index.html
+
+# check if nginx is listening on port 80
+if netstat -tnlp | grep -q ":80"; then
+    echo "Nginx is listening on port 80"
+else
+    echo "Nginx is not listening on port 80"
+fi
+
+# test nginx configuration
+sudo nginx -t
+
+# check if index.html file exists
+if [ -f /var/www/html/index.html ]; then
+    echo "index.html file created"
+else
+    echo "index.html file not created"
+fi
+
+# start nginx / restart nginx
+sudo service nginx start
