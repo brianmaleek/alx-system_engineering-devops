@@ -27,9 +27,6 @@ else
     echo "Nginx is not running"
 fi
 
-# start nginx
-sudo service nginx start
-
 # Creating an index.html file with "Hello World" inside
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
@@ -50,5 +47,5 @@ else
     echo "index.html file not created"
 fi
 
-# start nginx / restart nginx
+# reload nginx
 sudo service nginx reload
