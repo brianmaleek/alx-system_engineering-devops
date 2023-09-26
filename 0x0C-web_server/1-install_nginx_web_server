@@ -51,4 +51,4 @@ else
 fi
 
 # start nginx / restart nginx
-sudo service nginx start
+sudo service nginx reload
