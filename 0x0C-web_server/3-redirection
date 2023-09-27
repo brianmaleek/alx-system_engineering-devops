@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Update the package list
+sudo apt-get update && sudo apt-get upgrade -y
+
+# Install Nginx if not already installed
+if ! command -v nginx &>/dev/null; then
+    sudo apt-get install -y nginx
+fi
+
+# Define the index.html content
+index_content="Hello World!"
+
+# Create or update the index.html page
+echo "$index_content" | sudo tee /var/www/html/index.html > /dev/null
+
+# Define the redirection configuration
+redirection_config="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4 permanent;"
+
+# Update the Nginx configuration for redirection
+sudo sed -i "s/server_name _;/$redirection_config/" /etc/nginx/sites-enabled/default
+
+# Restart Nginx to apply the changes
+sudo service nginx restart
+
+echo "Nginx has been configured for the 301 Moved Permanently redirection."
