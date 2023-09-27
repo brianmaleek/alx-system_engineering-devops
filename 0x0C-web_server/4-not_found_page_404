@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
+# Creation of 404 error page and redirection
+
 # Update the package list
 sudo apt-get update && sudo apt-get upgrade -y
 
 # Install Nginx if not already installed
-if ! command -v nginx &>/dev/null; then
-    sudo apt-get install -y nginx
-fi
+sudo apt-get install -y nginx
 
 # Define the index.html content
 index_content="Hello World!"
-
-# Create or update the index.html page
 echo "$index_content" | sudo tee /var/www/html/index.html > /dev/null
 
 # Define the redirection configuration
