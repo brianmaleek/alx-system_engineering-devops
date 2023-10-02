@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Creation of 404 error page and redirection
+
+# Update the package list
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install -y nginx
+
+# Define the index.html content
+index_content="Hello World!"
+echo "$index_content" | sudo tee /var/www/html/index.html > /dev/null
+
+# Define the redirection configuration
+redirection_config="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4 permanent;"
+
+# Update the Nginx configuration for redirection
+sudo sed -i "s/server_name _;/$redirection_config/" /etc/nginx/sites-enabled/default
+
+# Create an error 404.html page
+error_page_content="Ceci n'est pas une page"
+echo "$error_page_content" | sudo tee /var/www/html/404.html > /dev/null
+
+# Define the Nginx configuration for the custom 404 error page
+error_page_config="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+
+# Update the Nginx default site configuration for the custom 404 error page
+sudo sed -i "s/listen 80 default_server;/$error_page_config/" /etc/nginx/sites-enabled/default
+
+# Configure nginx for HTTP response to have a custom header
+# Define the Nginx configuration for the custom header
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
+
+# Test Nginx configuration for syntax errors
+sudo nginx -t
+
+# Restart Nginx to apply the changes
+sudo service nginx restart
