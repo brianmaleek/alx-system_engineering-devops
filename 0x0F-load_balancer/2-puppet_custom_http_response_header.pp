@@ -22,8 +22,8 @@ file { '/var/www/html/index.html':
 file_line { 'add-header':
     ensure  => present,
     path    => '/etc/nginx/sites-available/default',
-    line    => "\tadd_header X-Served-By ${hostname};",
-    before  => 'server_name _;',
+    line    => "\add_header X-Served-By ${hostname};",
+    after   => 'server_name _;',
     require => Package['nginx'], # Ensure Nginx is installed before modifying the config
 }
 
