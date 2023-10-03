@@ -1,8 +1,8 @@
 # Install Nginx and configure with a custom HTTP header
 # Ensure that the package list is up to date
 exec { 'apt-update':
-    command     => '/usr/bin/apt-get -y update',
-    path        => '/usr/bin',
+    command     => '/usr/bin/env/apt-get -y update',
+    path        => '/usr/bin/env',
     refreshonly => true,
 }
 
