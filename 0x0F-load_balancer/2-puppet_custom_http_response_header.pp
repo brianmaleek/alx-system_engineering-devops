@@ -16,7 +16,6 @@ package { 'nginx':
 file { '/var/www/html/index.html':
     ensure  => file,
     content => 'Hello World',
-    require => Package['nginx'], # Ensure Nginx is installed before creating the file
 }
 
 # Add the custom HTTP header response to Nginx configuration
