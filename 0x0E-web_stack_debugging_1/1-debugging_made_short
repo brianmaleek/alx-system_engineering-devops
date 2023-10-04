@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # Script configures Nginx to run and listen on port 80
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 systemctl restart nginx
