@@ -1,28 +1,39 @@
 #!/usr/bin/env bash
 # Configure domain zone so that the subdomain
+#   www points to your load-balancer IP (lb-01)
+
 # Function to query DNS information for a subdomain and display the result
 get_domain_info() {
     local domain="$1"
     local subdomain="$2"
 
+    # Use the dig command to query DNS information for the subdomain
     local dns_info
-    dns_info=$(dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:')
+    dns_info=$(dig "$subdomain.$domain" | awk '/ANSWER SECTION:/ {getline; print; getline; print;}')
+
+    # Extract the record type and destination IP address using awk
     local record_type
-    record_type=$(echo "$dns_info" | awk '/IN\s/{print $4}')
+    record_type=$(echo "$dns_info" | awk '{print $4}')
+
     local destination
-    destination=$(echo "$dns_info" | awk '/IN\s/{print $5}')
+    destination=$(echo "$dns_info" | awk '{print $5}')
+
+    # Display the subdomain information
     echo "The subdomain $subdomain is a $record_type record and points to $destination"
 }
 
 # Main script logic
 if [ $# -eq 1 ]; then
+    # If only the domain parameter is provided, display information for default subdomains
     get_domain_info "$1" "www"
     get_domain_info "$1" "lb-01"
     get_domain_info "$1" "web-01"
     get_domain_info "$1" "web-02"
 elif [ $# -eq 2 ]; then
+    # If both domain and subdomain parameters are provided, display information for the specified subdomain
     get_domain_info "$1" "$2"
 else
+    # Display an error message if the number of arguments is incorrect
     echo "Usage: $0 <domain> [<subdomain>]"
     exit 1
 fi
