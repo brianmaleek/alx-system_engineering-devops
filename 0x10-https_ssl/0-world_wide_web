@@ -9,13 +9,10 @@ get_domain_info() {
 
     local dns_info
     dns_info=$(dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:')
-
     local record_type
     record_type=$(echo "$dns_info" | awk '/IN\s/{print $4}')
-
     local destination
     destination=$(echo "$dns_info" | awk '/IN\s/{print $5}')
-
     echo "The subdomain $subdomain is a $record_type record and points to $destination"
 }
 
