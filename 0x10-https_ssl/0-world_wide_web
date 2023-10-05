@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # Configure domain zone so that the subdomain
-#   www points to your load-balancer IP (lb-01)
-
 # Function to query DNS information for a subdomain and display the result
 get_domain_info() {
     local domain="$1"
