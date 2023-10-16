@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# creates and runs whoami command as someone else
+# this is a good example of how to run a command as someone else
+sudo -u "$1" whoami
