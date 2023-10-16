@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# installing ufw firewall and setting up a few rules 
+# check status of ufw firewall if its active or not
+sudo ufw status
+
+# if its inactive then enable it
+sudo ufw enable
+
+# set default incoming traffic policy to "deny" -- blocks all incoming traffic
+sudo ufw default deny incoming
+
+# set default outgoing traffic policy to "allow" -- allows all outgoing traffic
+sudo ufw default allow outgoing
+
+# allow incoming traffic on TCP port 22, 443, and 80
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 80/tcp
+
+# verify the changes
+sudo ufw show added
+
+# reload the firewall
+sudo ufw reload
