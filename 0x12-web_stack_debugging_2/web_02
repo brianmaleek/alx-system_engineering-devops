@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Path to my private key from the previous project
+
+# Start the ssh-agent
+eval "$(ssh-agent)"
+
+# Add my ssh private key to the agent
+ssh-add ~/.ssh/school
+
+# Connect to my alx web server using ssh
+ssh ubuntu@54.236.75.74
