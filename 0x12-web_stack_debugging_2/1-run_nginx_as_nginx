@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Script configures nginx to run as nginx user
+# nginx must be listening on all active IPS on port 8080
+
+# stop nginx if it is running
+sudo -u nginx service nginx stop
+
+# create a backup of the nginx.conf file
+sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+
+# Update Nginx configurations to run as nginx user and listen on port 8080
+sudo sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+sudo sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+
+# change ownership and permission of configuration file
+sudo chmod 644 /etc/nginx/nginx.conf
+sudo chown nginx:root /etc/nginx/nginx.conf
+
+# if  netstat -lpn shows apache2 is using port 8080.
+# this may be a problem if nginx is configured to use port 8080
+# kill apache2
+pkill apache2
+
+# start nginx
+sudo -u nginx service nginx start
