@@ -30,27 +30,31 @@ def get_employee_todo_progress(employee_id):
         return
 
     user_data = user_response.json()
-    employee_name = user_data.get('name')
+    EMPLOYEE_NAME = user_data.get('name')
+    NUMBER_OF_DONE_TASKS = 0
+    TOTAL_NUMBER_OF_TASKS = 0
 
     # Get TODOs for the user
     todos_response = requests.get(f"{base_url}/todos",
                                   params={"userId": employee_id})
+
     if todos_response.status_code != 200:
         print("Failed to fetch TODO list information.")
         return
 
     todos_data = todos_response.json()
-    completed_tasks = [task['title']
-                       for task in todos_data if task.get('completed')]
-    total_tasks = len(todos_data)
+    TASK_TITLE = []
+    for task in todos_data:
+        if task.get('completed'):
+            TASK_TITLE.append(task.get('title'))
+            NUMBER_OF_DONE_TASKS += 1
+        TOTAL_NUMBER_OF_TASKS += 1
 
-    print(
-        f"Employee {employee_name} is done with tasks "
-        f"({len(completed_tasks)}/{total_tasks}):"
-        )
+    print("Employee {} is done with tasks({}/{}):"
+          .format(EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS, TOTAL_NUMBER_OF_TASKS))
 
-    for task in completed_tasks:
-        print(f"    {task}")
+    for task in TASK_TITLE:
+        print("\t {}".format(task))
 
 
 if __name__ == "__main__":
